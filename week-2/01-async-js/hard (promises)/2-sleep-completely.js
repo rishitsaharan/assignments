@@ -4,5 +4,13 @@
  */
 
 function sleep (seconds) {
+    var currentTime = Date.now();
+    var awakeTime = currentTime + seconds;
+    while(Date.now() <= awakeTime){
 
+    }
 }
+
+console.log("sleep");
+sleep(5000);
+console.log("Slept");
