@@ -43,7 +43,81 @@
   const bodyParser = require('body-parser');
   
   const app = express();
-  
+  let todos = [];
+  let availableId = 1;
+
+  function generateTaskId(){
+    return availableId ++;
+  }
   app.use(bodyParser.json());
   
+  app.get("/todos", (request, response) => {
+    response.status(200).json(todos);
+  });
+  app.get("/todos/:id", (request, response) => {
+    const requiredId = request.params.id;
+    const task = todos.find((task) => task.id == parseInt(requiredId));
+    if(task){
+      response.status(200).json(task);
+    }
+    else{
+      response.status(404).json({
+        msg : "No such task exists"
+      });
+    }
+  });
+
+  app.post("/todos", (req, res) => {
+    const newTask = {
+      id : generateTaskId(),
+      title : req.body.title,
+      description : req.body.description
+    };
+    todos.push(newTask);
+    res.status(201).json(newTask);
+  });
+  app.put("/todos/:id", (req, res) => {
+    const originalTask = todos.filter((task) => task.id == parseInt(req.params.id));
+
+    if(originalTask.length != 0){
+      const id = req.params.id;
+      const updatedFields = req.body;
+      const updatedTask = {
+        id : id,
+        title : updatedFields.title,
+        description : updatedFields.description
+      }
+      todos = todos.filter((task) => task.id != id);
+      todos.push(updatedTask);
+      res.status(200).json({
+        msg : "Updated"
+      });
+    }
+    else{
+      res.status(404).json({
+        msg: "No such task exists"
+      });
+    }
+  });
+
+  app.delete("/todos/:id", (req, res) => {
+    const id = req.params.id;
+    let originalLength = todos.length;
+    todos = todos.filter((task) => task.id != id);
+    if(todos.length == originalLength){
+      res.status(404).json({
+        msg:"No such task exists"
+      });
+    }
+    else{
+      res.status(200).json({
+        msg : "Task deleted with id:" + id
+      })
+    }
+  });
+
+  // app.listen(3000);
+  app.use((req, res, next) => {
+    res.status(404).send("Incorrect route")
+  })
   module.exports = app;
