@@ -16,6 +16,34 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const app = express();
+app.use(express.json());
 
+app.get("/files", (req, res) => {
+  fs.readdir("/Users/rishitsaharan/Harkirat Cohort/assignments/week-2/02-nodejs/files", "utf-8", (err, files) => {
+    if(err) throw err;
+    if(files.length != 0)
+      res.status(200).json(files);
+    else{
+      res.json({
+        msg : "File not found"
+      })
+    }
+  });
+});
+app.get("/file/:filename", (req, res) => {
+  const filename = req.params.filename;
+  fs.readFile(`/Users/rishitsaharan/Harkirat Cohort/assignments/week-2/02-nodejs/files/${filename}`, "utf-8", (err, data) => {
+    if(err){
+      res.status(404).send("File not found");
+    }
+    else{
+      res.status(200).send(data);
+    }
+  })
+});
 
+// app.listen(3000);
+app.all('*', (req, res) => {
+  res.status(404).send('Route not found');
+});
 module.exports = app;
