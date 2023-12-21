@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "express": "^4.18.2",
+    "node": "^21.2.0",
+    "superset": "^2.0.1",
+    "supertest": "^6.3.3"
+  }
+}
