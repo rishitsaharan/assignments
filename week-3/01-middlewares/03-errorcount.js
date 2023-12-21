@@ -1,6 +1,7 @@
 const request = require('supertest');
 const assert = require('assert');
 const express = require('express');
+const { error } = require('console');
 
 const app = express();
 let errorCount = 0;
@@ -23,4 +24,10 @@ app.get('/errorCount', function(req, res) {
   res.status(200).json({ errorCount });
 });
 
+app.use((err, req, res, next) => {
+  errorCount ++;
+  res.status(404).send("Error detected");
+});
+
+app.listen(3000);
 module.exports = app;

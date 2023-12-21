@@ -11,7 +11,7 @@ let requestCount = 0;
 // requestCount variable
 
 app.use((req, res, next) => {
-  requestCount ++ ;
+  requestCount ++;
   // console.log(requestCount);
   next();
 });
