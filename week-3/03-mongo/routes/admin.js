@@ -5,8 +5,8 @@ const adminMiddleware = require("../middleware/admin");
 const router = Router();
 
 // Admin Routes
-
 router.post("/signup", async (req, res) => {
+
     // Implement admin signup logic
     const username = req.body.username;
     const password = req.body.password;
@@ -37,6 +37,7 @@ router.post("/courses", adminMiddleware, (req, res) => {
 });
 
 router.get("/courses", adminMiddleware, (req, res) => {
+
     // Implement fetching all courses logic
     const username = req.headers.username;
     const password = req.headers.password;

@@ -21,6 +21,7 @@ router.post('/signup', (req, res) => {
 });
 
 router.post('/signin', async (req, res) => {
+
     // Implement admin signup logic
     const username = req.headers.username;
     const password = req.headers.password;
@@ -68,7 +69,9 @@ router.post('/courses/:courseId', userMiddleware, (req, res) => {
     })
 });
 
+
 router.get('/purchasedCourses', userMiddleware, async (req, res) => {
+
     // Implement fetching purchased courses logic
     const username = req.username;
     const user = await User.findOne({
@@ -86,3 +89,4 @@ router.get('/purchasedCourses', userMiddleware, async (req, res) => {
 });
 
 module.exports = router
+
